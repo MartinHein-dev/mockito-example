@@ -29,31 +29,48 @@ class CountryServiceTest {
 	CountryMapper mapper;
 	
 	CountryService countryService;
+	
+	List<RestCountry> restCountryList;
+	List<CountryDto> countryDtoList;
+	
+	final String COUNTRY_CODES = "pe,at";
 
 	@BeforeEach
 	void setUp() throws Exception {
 		countryService = new CountryService(client, mapper);
+
+		restCountryList = List.of(
+				new RestCountry(new RestCountryName("Peru", "Republic of Peru")),
+				new RestCountry(new RestCountryName("Austria", "Republic of Austria"))
+				);
+		
+		countryDtoList = List.of(
+				new CountryDto("Peru", "Republic of Peru"),
+				new CountryDto("Austria", "Republic of Austria")
+				);
 	}
 
 
 	@Test
 	void getAllCountries() {
-		final String countryCodes = "pe,at";
-
-		List<RestCountry> restCountryList = List.of(
-			new RestCountry(new RestCountryName("Peru", "Republic of Peru")),
-			new RestCountry(new RestCountryName("Austria", "Republic of Austria"))
-		);
-		
-		List<CountryDto> countryDtoList = List.of(
-			new CountryDto("Peru", "Republic of Peru"),
-			new CountryDto("Austria", "Republic of Austria")
-		);
-		
-		given(client.findCountriesByCode(countryCodes)).willReturn(restCountryList);
+		given(client.findCountriesByCode(COUNTRY_CODES)).willReturn(restCountryList);
 		given(mapper.map(restCountryList)).willReturn(countryDtoList);
 		
-		List<CountryDto> result = this.countryService.getAllCountries(countryCodes);
+		List<CountryDto> result = this.countryService.getAllCountries(COUNTRY_CODES);
+		
+		assertEquals(2, result.size());
+		assertEquals("Peru", result.get(0).getCommonName());
+		assertEquals("Republic of Peru", result.get(0).getOfficialName());
+		assertEquals("Austria", result.get(1).getCommonName());
+		assertEquals("Republic of Austria", result.get(1).getOfficialName());
+	}
+	
+	@Test
+	void getAllCountries2() {
+		given(client.findCountriesByCode(COUNTRY_CODES)).willReturn(restCountryList);
+		given(mapper.map(restCountryList)).willReturn(countryDtoList);
+		
+		List<CountryDto> result = this.countryService.getAllCountries2(COUNTRY_CODES);
 		
 		assertEquals(2, result.size());
 		assertEquals("Peru", result.get(0).getCommonName());

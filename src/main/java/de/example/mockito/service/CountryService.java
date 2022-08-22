@@ -28,4 +28,13 @@ public class CountryService {
 		return dtoList;
 	}
 	
+	public List<CountryDto> getAllCountries2(String countryCodes) {
+		List<RestCountry> restCountryList = this.restCountiesClient.findCountriesByCode(countryCodes);
+		
+		restCountryList.get(0).getName().setCommon("Other Name");
+		
+		List<CountryDto> dtoList = this.countryMapper.map(restCountryList);
+		return dtoList;
+	}
+	
 }
