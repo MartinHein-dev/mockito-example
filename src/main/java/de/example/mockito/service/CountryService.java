@@ -20,9 +20,9 @@ public class CountryService {
 	CountryMapper countryMapper;
 
 	public List<CountryDto> getAllCountries(String countryCodes) {
-		List<RestCountry> restCountryResultPage = this.restCountiesClient.findCountriesByCode(countryCodes);
+		List<RestCountry> restCountryList = this.restCountiesClient.findCountriesByCode(countryCodes);
 		
-		List<CountryDto> dtoList = this.countryMapper.map(restCountryResultPage);
+		List<CountryDto> dtoList = this.countryMapper.map(restCountryList);
 		return dtoList;
 	}
 	
