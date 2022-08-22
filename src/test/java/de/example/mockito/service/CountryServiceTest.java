@@ -37,7 +37,7 @@ class CountryServiceTest {
 
 
 	@Test
-	void test() {
+	void getAllCountries() {
 		final String countryCodes = "pe,at";
 
 		List<RestCountry> restCountryList = List.of(
