@@ -9,8 +9,10 @@ import de.example.mockito.dto.CountryDto;
 import de.example.mockito.mapper.CountryMapper;
 import de.example.mockito.restcountries.RestCountriesClient;
 import de.example.mockito.restcountries.RestCountry;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class CountryService {
 	
 	@Autowired
@@ -18,7 +20,7 @@ public class CountryService {
 	
 	@Autowired
 	CountryMapper countryMapper;
-
+	
 	public List<CountryDto> getAllCountries(String countryCodes) {
 		List<RestCountry> restCountryList = this.restCountiesClient.findCountriesByCode(countryCodes);
 		
